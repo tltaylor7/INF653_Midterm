@@ -21,15 +21,24 @@ $quote_arr = array(
     'id' => $quote->id,
     'quote' => $quote->quote,
     'author' => $quote->author,
-    'category' => $quote->category,
+    'category' => $quote->category
 );
 
-
-//Make JSON
-if (is_null($quote->id)) {
+if($quote->id !== null) {
+    print_r(json_encode($quote_arr));
+}
+else {
     echo json_encode(
         array('message' => 'No Quotes Found')
+    );
+}
+
+/*Make JSON
+if (is_null($quote->id)) {
+    echo json_encode(
+        array('message' => 'No Quote Found')
     );
 } else{
     echo json_encode($quote_arr);
  }
+ */

@@ -13,10 +13,9 @@ $author = new Authors($db);
 //Get Raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
-$author->id = $data->id;
 $author->author = $data->author;
 
-if ((!isset($author->author)) || (!isset($author->id))) {
+if ((!isset($author->author))){
     echo json_encode(
         array('message' => 'Missing Required Parameters')
         );
