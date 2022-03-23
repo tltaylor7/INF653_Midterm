@@ -6,6 +6,6 @@
         <title>Midterm Project</title>
     </head>
     <body>
-        <h1>Travis Taylor REST API Midterm Project</h1>
+        <h1> Travis Taylor REST API Midterm Project</h1>
     </body>
 </html>
