@@ -7,6 +7,9 @@ if ($method === 'OPTIONS') {
     header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
 }
 include_once '../../config/Database.php';
+include_once '../../models/Quotes.php';
+include_once '../../function/isValid.php';
+include_once '../../models/Categories.php';
 include_once '../../models/Authors.php';
 
 //Instantiate DB & connect
@@ -18,22 +21,22 @@ $author = new Authors($db);
 if ($method === 'GET') {
     
     if (isset($_GET['id'])) {
-        require ('./read_single.php');
+        include ('read_single.php');
     }
 
     else{
-        require ('./read.php');
+        include('read.php');
     }
 }
 
 else if ($method === 'POST') {
-    require ('./create.php');
+    include ('create.php');
 }
 
 else if ($method === 'PUT') {
-    require ('./update.php');;
+    include ('update.php');;
 }
 
 else if ($method === 'DELETE') {
-    require ('./delete.php');;
+    include ('delete.php');;
 }
