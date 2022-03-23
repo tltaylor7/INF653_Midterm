@@ -7,7 +7,6 @@
 
         function __construct() {
             $this->url = getenv('JAWSDB_URL');
-            echo json_encode($this->url);
             $this->conn = null;
         }
         
@@ -16,11 +15,9 @@
             
             $dbparts = parse_url($this->url);
             echo json_encode($dbparts);
-
+            
             $hostname = $dbparts['host'];
-            echo json_encode($hostname);
             $username = $dbparts['user'];
-            echo json_encode($username);
             $password = $dbparts['pass'];
             $database = ltrim($dbparts['path'],'/');
 
