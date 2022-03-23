@@ -13,9 +13,7 @@
         //DB Connect
         public function connect() {
             
-            $dbparts = parse_url($this->url);
-            echo json_encode($dbparts);
-            
+            $dbparts = parse_url($this->url);            
             $hostname = $dbparts['host'];
             $username = $dbparts['user'];
             $password = $dbparts['pass'];
@@ -26,7 +24,6 @@
                 $this->conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
                 // set the PDO error mode to exception
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                echo "Connected successfully";
                 }
             catch(PDOException $e)
                 {
