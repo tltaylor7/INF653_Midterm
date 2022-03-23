@@ -9,6 +9,8 @@
     public $quote;   
     public $author;
     public $category;
+    public $categoryId;
+    public $authorId;
 
     // Construct with DB
     public function __construct($db) {
@@ -22,7 +24,9 @@
                 a.author,
                 c.category,
                 q.id,
-                q.quote
+                q.quote,
+                q.categoryId,
+                q.authorId
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
@@ -46,6 +50,8 @@
                 c.category,
                 q.id,
                 q.quote
+                q.categoryId,
+                q.authorId,
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
@@ -78,6 +84,8 @@
                 c.category,
                 q.id,
                 q.quote
+                q.categoryId,
+                q.authorId
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
@@ -85,13 +93,13 @@
                 LEFT JOIN
                     authors a ON q.authorId = a.id
                 WHERE
-                    q.authorId = :authorId
+                    q.authorId = ?
                 ORDER BY 
                     q.id ASC';
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(':authorId', $this->authorId);
+            $stmt->bindParam(1, $this->authorId);
 
             $stmt->execute();
 
@@ -113,13 +121,13 @@
                 LEFT JOIN
                     authors a ON q.authorId = a.id
                 WHERE
-                    q.categoryId = :categoryId 
+                    q.categoryId = ?
                 ORDER BY 
                     q.id ASC';
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam('categoryId', $this->categoryId);
+            $stmt->bindParam(1, $this->categoryId);
 
             $stmt->execute();
 
@@ -142,13 +150,13 @@
                 LEFT JOIN
                     authors a ON q.authorId = a.id
                 WHERE
-                    q.categoryId = :categoryId AND q.authorId = :authorId';
+                    q.categoryId = ? AND q.authorId = ?';
 
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(':categoryId', $this->categoryId);
-            $stmt->bindParam(':authorId', $this->authorId);
+            $stmt->bindParam(1, $this->categoryId);
+            $stmt->bindParam(2, $this->authorId);
 
             $stmt->execute();
 
