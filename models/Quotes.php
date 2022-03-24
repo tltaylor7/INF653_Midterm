@@ -173,7 +173,6 @@
                     quote = :quote,
                     authorId = :authorId,
                     categoryId = :categoryId';
-
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
