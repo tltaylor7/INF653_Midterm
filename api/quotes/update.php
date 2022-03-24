@@ -23,7 +23,7 @@ $quote->categoryId = $data->categoryId;
 
 
 
-if ((isset($data->quote)) && (isset($data->categoryId)) && (isset($data->authorId))) {
+if ((!isset($data->quote)) || (!isset($data->categoryId)) || (!isset($data->authorId))) {
         echo json_encode(
     array('message' => 'Missing Required Parameters')
     );

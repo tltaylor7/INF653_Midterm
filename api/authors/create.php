@@ -25,8 +25,8 @@ if ((!isset($author->author))){
 if($author->create()){
     echo json_encode(
         array(
-            'id' => $this->conn->lastInsertId(), 
-            'author' => $this->author) 
+            'id' => $db->lastInsertId(), 
+            'author' => $author->author) 
         );
 } else {
     echo json_encode(
