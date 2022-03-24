@@ -30,7 +30,7 @@ array('message' => 'Missing Required Parameters')
 );
 exit();
 }
-if ($quote->update()){
+if ($quote->create()){
     echo json_encode(
         array(            
         'id' => $db->lastInsertId(),  
