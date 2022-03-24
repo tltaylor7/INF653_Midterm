@@ -59,13 +59,13 @@
                 LEFT JOIN
                     authors a ON q.authorId = a.id
             WHERE
-                q.id = ?
+                q.id = :id
             LIMIT 0,1';      
             
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(1, $this->id);
+            $stmt->bindParam(':id', $this->id);
 
             $stmt->execute();
 
