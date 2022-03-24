@@ -24,16 +24,6 @@ $quote_arr = array(
     'category' => $quote->category
 );
 
-if($quote->id !== null) {
-    print_r(json_encode($quote_arr));
-}
-else {
-    echo json_encode(
-        array('message' => 'No Quotes Found')
-    );
-}
-
-/*Make JSON
 if (is_null($quote->id)) {
     echo json_encode(
         array('message' => 'No Quote Found')
@@ -41,4 +31,4 @@ if (is_null($quote->id)) {
 } else{
     echo json_encode($quote_arr);
  }
- */
+ 

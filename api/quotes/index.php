@@ -9,7 +9,6 @@ if ($method === 'OPTIONS') {
 
 include_once '../../config/Database.php';
 include_once '../../models/Quotes.php';
-include_once '../../function/isValid.php';
 include_once '../../models/Categories.php';
 include_once '../../models/Authors.php';
 

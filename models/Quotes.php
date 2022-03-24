@@ -7,8 +7,6 @@
     //Post properties
     public $id;
     public $quote;   
-    public $author;
-    public $category;
     public $categoryId;
     public $authorId;
 
@@ -45,13 +43,11 @@
 
         public function read_single(){
             //create query
-            $query = 'SELECT
-                a.author,
-                c.category,
+            $query = 'SELECT                
                 q.id,
                 q.quote
-                q.categoryId,
-                q.authorId,
+                a.author,
+                c.category
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
@@ -59,8 +55,7 @@
                 LEFT JOIN
                     authors a ON q.authorId = a.id
             WHERE
-                q.id = :id
-            LIMIT 0,1';      
+                q.id = :id';      
             
             //Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -73,8 +68,8 @@
 
             $this->id = $row['id'];
             $this->quote = $row['quote'];
-            $this->category = $row['category'];
-            $this->author = $row['author'];        
+            $this->author = $row['author'];              
+            $this->category = $row['category'];      
         }
 
         public function read_authorId(){
@@ -83,9 +78,7 @@
                 a.author,
                 c.category,
                 q.id,
-                q.quote
-                q.categoryId,
-                q.authorId
+                q.quote,
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
@@ -93,13 +86,12 @@
                 LEFT JOIN
                     authors a ON q.authorId = a.id
                 WHERE
-                    q.authorId = ?
-                ORDER BY 
-                    q.id ASC';
+                    q.authorId = :authorId';
+
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(1, $this->authorId);
+            $stmt->bindParam(':authorId', $this->authorId);
 
             $stmt->execute();
 
