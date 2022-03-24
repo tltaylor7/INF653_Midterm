@@ -13,13 +13,15 @@ $category = new Categories($db);
 //Get Raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
+$category->category = $data->category;
+
 if ((!isset($category->category))){
     echo json_encode(
         array('message' => 'Missing Required Parameters')
         );
         exit();
 }
-$category->category = $data->category;
+
 
 if($category->create()){
     echo json_encode(

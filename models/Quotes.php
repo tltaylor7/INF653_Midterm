@@ -9,6 +9,8 @@
     public $quote;   
     public $categoryId;
     public $authorId;
+    public $author;
+    public $category;
 
     // Construct with DB
     public function __construct($db) {
@@ -41,61 +43,38 @@
             return $stmt;
         }
 
-        public function read_single(){
-            //create query
-            $query = 'SELECT                
-                q.id,
-                q.quote
-                a.author,
-                c.category
-                FROM
-                ' . $this->table . ' q
-                LEFT JOIN
-                    categories c ON q.categoryId = c.id
-                LEFT JOIN
-                    authors a ON q.authorId = a.id
-            WHERE
-                q.id = :id';      
+
+        public function read_single() {
+                // create query
+                $query = 'SELECT 
+                        c.category AS category, 
+                        q.id, 
+                        q.categoryId, 
+                        a.author AS author, 
+                        q.authorId,
+                        q.quote
+                        FROM 
+                            ' . $this->table . ' q
+                        LEFT JOIN 
+                            categories c ON q.categoryId = c.id
+                        LEFT JOIN 
+                            authors a ON q.authorId = a.id
+                        WHERE 
+                        q.id = ?
+                        LIMIT 0,1';
             
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(':id', $this->id);
+            $stmt->bindParam(1, $this->id);
 
             $stmt->execute();
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $this->id = $row['id'];
             $this->quote = $row['quote'];
-            $this->author = $row['author'];              
-            $this->category = $row['category'];      
-        }
-
-        public function read_authorId(){
-            //create query
-            $query = 'SELECT
-                a.author,
-                c.category,
-                q.id,
-                q.quote,
-                FROM
-                ' . $this->table . ' q
-                LEFT JOIN
-                    categories c ON q.categoryId = c.id
-                LEFT JOIN
-                    authors a ON q.authorId = a.id
-                WHERE
-                    q.authorId = :authorId';
-
-            //Prepare statement
-            $stmt = $this->conn->prepare($query);
-
-            $stmt->bindParam(':authorId', $this->authorId);
-
-            $stmt->execute();
-
-            return $stmt;
+            $this->authorId = $row['authorId'];
+            $this->categoryId = $row['categoryId'];
         }
 
         public function read_catId(){
@@ -143,6 +122,7 @@
                     authors a ON q.authorId = a.id
                 WHERE
                     q.categoryId = ? AND q.authorId = ?';
+                    
 
             //Prepare statement
             $stmt = $this->conn->prepare($query);
