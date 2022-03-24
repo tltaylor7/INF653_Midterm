@@ -26,7 +26,7 @@ $quote_arr = array(
 
 if (is_null($quote->id)) {
     echo json_encode(
-        array('message' => 'No Quote Found')
+        array('message' => 'No Quotes Found')
     );
 } else{
     echo json_encode($quote_arr);
