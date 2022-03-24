@@ -43,48 +43,78 @@
             return $stmt;
         }
 
-
         public function read_single() {
-                // create query
-                $query = 'SELECT 
-                        c.category AS category, 
-                        q.id, 
-                        q.categoryId, 
-                        a.author AS author, 
-                        q.authorId,
-                        q.quote
-                        FROM 
-                            ' . $this->table . ' q
-                        LEFT JOIN 
-                            categories c ON q.categoryId = c.id
-                        LEFT JOIN 
-                            authors a ON q.authorId = a.id
-                        WHERE 
-                        q.id = ?
-                        LIMIT 0,1';
-            
+            // create query
+            $query = 'SELECT 
+                    c.category AS category, 
+                    q.id, 
+                    q.categoryId, 
+                    a.author AS author, 
+                    q.authorId,
+                    q.quote
+                    FROM 
+                        ' . $this->table . ' q
+                    LEFT JOIN 
+                        categories c ON q.categoryId = c.id
+                    LEFT JOIN 
+                        authors a ON q.authorId = a.id
+                    WHERE 
+                    q.id = ?
+                    LIMIT 0,1';
+        
+        //Prepare statement
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(1, $this->id);
+
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->quote = $row['quote'];
+        $this->authorId = $row['authorId'];
+        $this->categoryId = $row['categoryId'];
+    }
+
+        public function read_authorId(){
+            //create query
+            $query = 'SELECT
+                    c.category AS category, 
+                    q.id, 
+                    q.categoryId, 
+                    a.author AS author, 
+                    q.authorId,
+                    q.quote
+                FROM
+                ' . $this->table . ' q
+                LEFT JOIN
+                    categories c ON q.categoryId = c.id
+                LEFT JOIN
+                    authors a ON q.authorId = a.id
+                WHERE
+                    q.authorId = ?
+                ORDER BY 
+                    q.id ASC';
+
             //Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(1, $this->id);
+            $stmt->bindParam(1, $this->authorId);
 
             $stmt->execute();
 
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $this->quote = $row['quote'];
-            $this->authorId = $row['authorId'];
-            $this->categoryId = $row['categoryId'];
+            return $stmt;
         }
 
         public function read_catId(){
             //create query
             $query = 'SELECT
-                a.author,
-                c.category,
-                q.id,
-                q.quote,
-                q.categoryId
+                    c.category AS category, 
+                    q.id, 
+                    q.categoryId, 
+                    a.author AS author, 
+                    q.authorId,
+                    q.quote
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
@@ -108,12 +138,12 @@
         public function read_cat_authorId(){
             //create query
             $query = 'SELECT
-                a.author,
-                c.category,
-                q.id,
-                q.quote,
-                q.categoryId,
-                q.authorId
+                c.category AS category, 
+                q.id, 
+                q.categoryId, 
+                a.author AS author, 
+                q.authorId,
+                q.quote
                 FROM
                 ' . $this->table . ' q
                 LEFT JOIN
