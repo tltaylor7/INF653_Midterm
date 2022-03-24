@@ -7,13 +7,12 @@ include_once '../../models/Quotes.php';
 $database = new Database();
 $db = $database->connect();
 
-//Instantiate blog post object
+
 $quote = new Quotes($db);
 
 //Get Raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
-$idExists = isValid($id, $quote);
 
 // Set ID to update
 $quote->id = $data->id;

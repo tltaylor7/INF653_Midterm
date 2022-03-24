@@ -17,52 +17,31 @@ $quote = new Quotes($db);
 $data = json_decode(file_get_contents("php://input"));
 
 $quote = new Quotes($db);
-$author = new Authors($db);
-$category = new Categories($db);
+
 
 $quote->id = $data->id;
 $quote->quote = $data->quote;
 $quote->authorId = $data->authorId;
 $quote->categoryId = $data->categoryId;
 
-$authorExists = isValid($authorId, $author);
-// if categoryId exists:
-$categoryExists = isValid($categoryId, $category);
-// if quote id exists:
-$idExists = isValid($id, $quote);
-
-if ((isset($data->quote)) && (isset($data->categoryId)) && (isset($data->authorId))) {
-    if (($authorExists === FALSE)) {
+if ((isset($data->quote)) || (isset($data->categoryId)) || (isset($data->authorId))) {
     echo json_encode(
-        array('message' => 'authorId Not Found')
-    );
-    exit();
-
-}else if ($categoryExists === FALSE) {
+array('message' => 'Missing Required Parameters')
+);
+exit();
+}
+if ($quote->update()){
     echo json_encode(
-        array('message' => 'categoryId Not Found')
+        array(            
+        'id' => $db->lastInsertId(),  
+        'quote' => $quote->quote,
+        'authorId' => $quote->authorId,
+        'categoryId' => $quote->categoryId
+        )
     );
-    exit();
 
-}else if ($idExists === FALSE) {
+}else {
     echo json_encode(
-        array('message' => 'No Quotes Found')
+        array('message' => 'No QuotesFound')
     );
-    exit();
-    
-}else if($quote->create()){
-        echo json_encode(
-            array(            
-            'quote' => $quote->quote,
-            'authorId' => $quote->authorId,
-            'categoryId' => $quote->categoryId
-            )
-        );
-
-}else{
-    echo json_encode(
-    array('message' => 'Missing Required Parameters')
-    );
-    exit();
-    }
 }

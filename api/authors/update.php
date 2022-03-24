@@ -17,7 +17,6 @@ $author = new Authors($db);
 $data = json_decode(file_get_contents("php://input"));
 
 
-
 // Set ID to update
 $author->id = $data->id;
 $author->author = $data->author;
