@@ -24,7 +24,7 @@ $quote_arr = array(
     'category' => $quote->category
 );
 
-if (is_null($quote->id)) {
+if (is_null($quote->quote)) {
     echo json_encode(
         array('message' => 'No Quotes Found')
     );
